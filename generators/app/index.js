@@ -25,7 +25,7 @@ module.exports = yeoman.Base.extend({
 
   writing: function () {
     this.fs.copy(
-      this.templatePath('components'),
+      this.templatePath('components/*'),
       this.destinationPath('components')
     );
     this.fs.copy(
@@ -33,7 +33,7 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('app.js')
     );
     this.fs.copy(
-      this.templatePath('config'),
+      this.templatePath('config/*'),
       this.destinationPath('config')
     );
     this.fs.copy(
@@ -49,7 +49,7 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('package.json')
     );
     this.fs.copy(
-      this.templatePath('public'),
+      this.templatePath('public/*'),
       this.destinationPath('public')
     );
     this.fs.copy(
