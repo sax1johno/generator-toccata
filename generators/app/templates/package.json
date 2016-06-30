@@ -11,7 +11,7 @@
     "node": "4.4.0",
     "npm": "2.14.20"
   },
-  "author": "John O'Connor (sax1johno@gmail.com)",
+  "author": "<%= author %>",
   "license": "SEE LICENSE IN LICENSE.txt",
   "dependencies": {
     "async": "^2.0.0-rc.3",

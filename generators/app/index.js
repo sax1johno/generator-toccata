@@ -21,7 +21,15 @@ module.exports = yeoman.Base.extend({
       name    : 'description',
       message : 'App Description',
       default : "Server-side template software for building web applications using seneca, node.js, and node-red"
-    }];      
+    },
+    
+    {
+      type    : 'input',
+      name    : 'author',
+      message : 'Author Name',
+      default : "John O'Connor (sax1johno@gmail.com)"
+    }                   
+    ];      
 
     return this.prompt(prompts).then(function (props) {
       // To access props later use this.props.someAnswer;
@@ -53,7 +61,8 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('package.json'),
       {
           name: this.props.name,
-          description: this.props.description
+          description: this.props.description,
+          author: this.props.author
       }
     );
     this.mkdir('public');

@@ -6,4 +6,4 @@ seneca
   .use('views')
   .use('seneca-entity')
   .use('./lib/index')
-  .listen({type: 'http', port: 80});
+  .listen({type: 'tcp', port: <%= port %>});

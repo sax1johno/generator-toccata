@@ -6,7 +6,7 @@
   "author": {
     "name": "John O'Connor",
     "email": "sax1johno@gmail.com",
-    "url": "johnwoconnor.com"
+    "url": "http://johnwoconnor.com"
   },
   "files": [
     "generators"
@@ -19,8 +19,9 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^0.23.0",
     "chalk": "^1.0.0",
+    "js-yaml": "^3.6.1",
+    "yeoman-generator": "^0.23.0",
     "yosay": "^1.0.0"
   },
   "devDependencies": {

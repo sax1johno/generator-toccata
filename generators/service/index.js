@@ -2,6 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var yaml = require('js-yaml'); // For parsing the docker-container.yml file.
 
 module.exports = yeoman.Base.extend({
   prompting: function () {
@@ -10,15 +11,22 @@ module.exports = yeoman.Base.extend({
       'Welcome to the glorious ' + chalk.red('generator-toccata') + ' generator!'
     ));
 
+    var servicePort = (this.config.get('servicePort') + 1) || 1000;
     var prompts = [{
       type    : 'input',
       name    : 'name',
       message : 'What is your service name?',
       default : this.appname // Default to current folder name
-    }];
+    },
+      type    : 'input',
+      name    : 'port',
+      message : 'Which port should this service run on?',
+      default : servicePort // Default to current folder name    
+    ];
 
     return this.prompt(prompts).then(function (props) {
       // To access props later use this.props.name;
+      this.config.set("servicePort", servicePort);
       this.props = props;
     }.bind(this));
   },
@@ -38,9 +46,13 @@ module.exports = yeoman.Base.extend({
         { serviceName: capName}
     );
     this.mkdir('tests');
-    this.fs.copy(
+    this.fs.copyTpl(
         this.templatePath("tests/*"),
-        this.destinationPath("tests")
+        this.destinationPath("tests"),
+        { 
+            name: capName,
+            port: this.config.get("servicePort")
+        }
     );
     this.fs.copy(
       this.templatePath('package.json'),
@@ -52,7 +64,11 @@ module.exports = yeoman.Base.extend({
     );
     this.fs.copy(
       this.templatePath('service.js'),
-      this.destinationPath('service.js')
+      this.destinationPath('service.js'),
+        { 
+            name: capName,
+            port: this.config.get("servicePort")
+        }        
     );
     this.mkdir('views');
   },
