@@ -24,18 +24,12 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    this.fs.copy(
-      this.templatePath('components/**/*'),
-      this.destinationPath('components')
-    );
+    this.directory('components', 'components');
     this.fs.copy(
       this.templatePath('app.js'),
       this.destinationPath('app.js')
     );
-    this.fs.copy(
-      this.templatePath('config/**/*'),
-      this.destinationPath('config')
-    );
+    this.directory('config', 'config');
     this.fs.copy(
       this.templatePath('docker-compose.yml'),
       this.destinationPath('docker-compose.yml')
@@ -48,10 +42,7 @@ module.exports = yeoman.Base.extend({
       this.templatePath('package.json'),
       this.destinationPath('package.json')
     );
-    this.fs.copy(
-      this.templatePath('public/**/*'),
-      this.destinationPath('public')
-    );
+    this.directory('public', 'public');
     this.fs.copy(
       this.templatePath('README.md'),
       this.destinationPath('README.md')
