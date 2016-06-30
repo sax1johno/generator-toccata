@@ -31,6 +31,10 @@ module.exports = yeoman.Base.extend({
     );
     this.mkdir('config');
     this.fs.copy(
+        this.templatePath("config/*"),
+        this.destinationPath("config")
+    );
+    this.fs.copy(
       this.templatePath('docker-compose.yml'),
       this.destinationPath('docker-compose.yml')
     );
