@@ -11,11 +11,17 @@ module.exports = yeoman.Base.extend({
     ));
 
     var prompts = [{
-      type: 'confirm',
-      name: 'someAnswer',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+      type    : 'input',
+      name    : 'name',
+      message : 'App Name',
+      default : this.appname // Default to current folder name
+    },
+    {
+      type    : 'input',
+      name    : 'description',
+      message : 'App Description',
+      default : "Server-side template software for building web applications using seneca, node.js, and node-red"
+    }];      
 
     return this.prompt(prompts).then(function (props) {
       // To access props later use this.props.someAnswer;
@@ -42,9 +48,13 @@ module.exports = yeoman.Base.extend({
       this.templatePath('Dockerfile'),
       this.destinationPath('Dockerfile')
     );
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('package.json'),
-      this.destinationPath('package.json')
+      this.destinationPath('package.json'),
+      {
+          name: this.props.name,
+          description: this.props.description
+      }
     );
     this.mkdir('public');
     this.mkdir('public/css');

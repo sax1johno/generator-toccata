@@ -13,7 +13,7 @@ module.exports = yeoman.Base.extend({
     var prompts = [{
       type    : 'input',
       name    : 'name',
-      message : 'Your service name',
+      message : 'What is your service name?',
       default : this.appname // Default to current folder name
     }];
 
@@ -29,11 +29,13 @@ module.exports = yeoman.Base.extend({
     this.fs.copy(
       this.templatePath('Dockerfile'),
       this.destinationPath('Dockerfile')
-    );      
+    );
     this.mkdir('lib');
-    this.fs.copy(
-      this.templatePath('lib/*'),
-      this.destinationPath('lib')
+    var capName = this.props.name.substr(0, 1).toUpperCase() + this.props.name.substr(1);
+    this.fs.copyTpl(
+      this.templatePath('lib/index.js'),
+      this.destinationPath('lib/index.js'),
+        { serviceName: capName}
     );
     this.mkdir('tests');
     this.fs.copy(
@@ -51,7 +53,8 @@ module.exports = yeoman.Base.extend({
     this.fs.copy(
       this.templatePath('service.js'),
       this.destinationPath('service.js')
-    );      
+    );
+    this.mkdir('views');
   },
     
   install: function () {

@@ -1,8 +1,8 @@
 {
-  "name": "toccata project template",
+  "name": "<%= name %>",
   "version": "1.0.0",
-  "description": "Server-side template software for building web applications using seneca and node.js",
-  "main": "server.js",
+  "description": "<%= description %>",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
