@@ -1,13 +1,13 @@
 {
-  "name": "seneca-base",
+  "name": "<%= name %>",
   "version": "1.0.0",
-  "description": "A base image for containers for senecajs",
+  "description": "<%= description %>",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node service.js"
   },
-  "author": "John O'Connor (sax1johno@gmail.com)",
+  "author": "<%= author %>",
   "license": "ISC",
   "dependencies": {
     "async": "^2.0.0-rc.5",

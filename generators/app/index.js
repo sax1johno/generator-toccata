@@ -53,7 +53,7 @@ module.exports = yeoman.Base.extend({
         this.templatePath("config/*"),
         this.destinationPath("config"),
         {
-            name: name,
+            name: this.props.name,
             flowsFile: this.props.flowsFile
         }
     );

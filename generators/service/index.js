@@ -2,7 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
-var yaml = require('js-yaml'); // For parsing the docker-container.yml file.
+var yaml = require('yamljs'); // For parsing the docker-container.yml file.
 
 module.exports = yeoman.Base.extend({
   prompting: function () {
@@ -12,11 +12,24 @@ module.exports = yeoman.Base.extend({
     ));
 
     var servicePort = (this.config.get('servicePort') + 1) || 1000;
+    var serviceNumber = (this.config.get("serviceNumber") + 1) || 1;
     var prompts = [{
       type    : 'input',
       name    : 'name',
       message : 'What is your service name?',
-      default : this.appname // Default to current folder name
+      default : "Service" + serviceNumber // Default to current folder name
+    },
+    {
+        type: 'input',
+        name: 'description',
+        message: "Description of the service:",
+        default: "A seneca.js based microservice"
+    },
+    {
+        type: 'input',
+        name: 'author',
+        message: "Service author:",
+        default: "Joe Sample (sample@example.com)"
     },
     {
       type    : 'input',
@@ -28,16 +41,22 @@ module.exports = yeoman.Base.extend({
     return this.prompt(prompts).then(function (props) {
       // To access props later use this.props.name;
       this.config.set("servicePort", servicePort);
+      this.config.set("serviceNumber", serviceNumber);
       this.props = props;
     }.bind(this));
   },
 
   writing: function () {
+    var dockerCompose = yaml.load('docker-compose.yml');
+    console.log("Docker compose = ", dockerCompose);
     this.mkdir("components/" + this.props.name);
     this.destinationRoot("components/" + this.props.name);
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('Dockerfile'),
-      this.destinationPath('Dockerfile')
+      this.destinationPath('Dockerfile'),
+      {
+          port: this.props.port
+      }
     );
     this.mkdir('lib');
     var capName = this.props.name.substr(0, 1).toUpperCase() + this.props.name.substr(1);
@@ -55,9 +74,14 @@ module.exports = yeoman.Base.extend({
             port: this.props.port
         }
     );
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('package.json'),
-      this.destinationPath('package.json')
+      this.destinationPath('package.json'),
+      {
+          name: this.props.name,
+          description: this.props.description,
+          author: this.props.author
+      }
     );
     this.fs.copy(
       this.templatePath('README.md'),
@@ -69,7 +93,7 @@ module.exports = yeoman.Base.extend({
         { 
             name: capName,
             port: this.props.port
-        }        
+        }
     );
     this.mkdir('views');
   },

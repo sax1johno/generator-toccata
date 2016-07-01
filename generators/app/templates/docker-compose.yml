@@ -6,40 +6,6 @@ services:
         image: "node:argon"
         volumeas:
             - /usr/src/flows
-    # microservices
-    # users
-#    users:
-#        extends:
-#            file: "service-types.yml"
-#            service: "microservice"
-#        build: ./components/users
-#        ports: 
-#            - "1011:1000"
-
-#    articles:
-#        extends:
-#            file: "service-types.yml"
-#            service: "microservice"
-#        build: ./components/articles
-#        ports: 
-#            - "1012:1000"
-
-#    categories:
-#        extends:
-#            file: "service-types.yml"
-#            service: "microservice"
-#        build: ./components/categories
-#        ports: 
-#            - "1013:1000"
-#
-#    public:
-#        extends:
-#            file: "service-types.yml"
-#            service: "microservice"
-#        build: ./components/public
-#        ports: 
-#            - "1014:1000"
-
     # node-red
     node-red:
         extends:
@@ -50,23 +16,8 @@ services:
             - flows
         ports:
             - "80:80"
-        links:
-            - users
-            - articles
-            - public
-            - categories
-    # nginx
-#    nginx:
-#        build: ./nginx
-#        ports:
-#            - "80:80"
-#    #phabricator-related Services
-#    # database
-#    database:
-#        build: ./docker-phabricator/database
-#        
-#    #phabricator
-#    phab:
-#        build: ./docker-phabricator
-#        ports:
-#            - "8081:80"
+#        links:
+#            - users
+#            - articles
+#            - public
+#            - categories

@@ -8,7 +8,7 @@ describe('<%= name %>', function() {
          // load up the microservice client.
          this.timeout(5000);
          client = seneca.client({type: 'tcp', port: <%= port %>});
-         client.act({ "role": "Admin", "cmd": "ping"}, function(err, result) {
+         client.act({ "role": "<%= name %>", "cmd": "ping"}, function(err, result) {
              console.log("ping result was ", result);
              done(err);
          });
