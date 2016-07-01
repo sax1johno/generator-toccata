@@ -16,8 +16,3 @@ services:
             - flows
         ports:
             - "80:80"
-#        links:
-#            - users
-#            - articles
-#            - public
-#            - categories

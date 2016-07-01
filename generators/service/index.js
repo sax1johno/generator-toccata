@@ -48,7 +48,24 @@ module.exports = yeoman.Base.extend({
 
   writing: function () {
     var dockerCompose = yaml.load('docker-compose.yml');
-    console.log("Docker compose = ", dockerCompose);
+    dockerCompose[this.props.name] = {
+        "extends": {
+            file: "service-types.yml",
+            service: "microservice"
+        },
+        "build": "./components/" + this.props.name,
+        "ports": [
+            "" + this.props.port + ":" + this.props.port
+        ]
+    }
+    if (dockerCompose.links) {
+        dockerCompose.links.push("<%= this.props.name %>")
+    } else {
+        dockerCompose.links = [];
+        dockerCompose.links.push("<%= this.props.name %>")        
+    }
+    var YAMLString = yaml.stringify(dockerCompose);
+    console.log("Yaml string = ", YAMLString);
     this.mkdir("components/" + this.props.name);
     this.destinationRoot("components/" + this.props.name);
     this.fs.copyTpl(
