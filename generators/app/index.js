@@ -22,13 +22,18 @@ module.exports = yeoman.Base.extend({
       message : 'App Description',
       default : "Server-side template software for building web applications using seneca, node.js, and node-red"
     },
-    
     {
       type    : 'input',
       name    : 'author',
       message : 'Author Name',
       default : "John O'Connor (sax1johno@gmail.com)"
-    }                   
+    },
+    {
+      type    : 'input',
+      name    : 'flowsFile',
+      message : 'Flow File Name',
+      default : "myapp"
+    }
     ];      
 
     return this.prompt(prompts).then(function (props) {
@@ -44,9 +49,13 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('app.js')
     );
     this.mkdir('config');
-    this.fs.copy(
+    this.fs.copyTpl(
         this.templatePath("config/*"),
-        this.destinationPath("config")
+        this.destinationPath("config"),
+        {
+            name: name,
+            flowsFile: this.props.flowsFile
+        }
     );
     this.fs.copy(
       this.templatePath('docker-compose.yml'),

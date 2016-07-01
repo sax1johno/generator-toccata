@@ -17,7 +17,7 @@ var path = require('path'),
     expressSession = require('express-session');
     
 module.exports = {
-  appName: "DLI Encyclopedia of Dry Cleaning",
+  appName: "<%= name %>",
   main: {
     port:process.env.PORT
   },
@@ -25,49 +25,6 @@ module.exports = {
     // change to true if you want to send emails
     sendemail:false
   },
-  services:  // A list of pm2-compatible JSON objects containing the microservice servers you want to spawn.
-    [
-        {
-            "name"          : "RedServer",
-            "script"        : "app.js",
-            "watch"         : false,
-            "merge_logs"    : true,
-            "instance"      : 1,
-            "exec_mode"     : "cluster_mode"
-        },
-        {
-            "name"        : "Users",
-            "script"      : "components/users/service.js",
-            "watch"       : true,
-            "merge_logs"  : true,
-            "instances"   : 1,
-            "exec_mode"   : "cluster_mode"
-        },
-        {
-            "name"        : "Articles",
-            "script"      : "components/articles/service.js",
-            "watch"       : true,
-            "merge_logs"  : true,
-            "instances"   : 1,
-            "exec_mode"   : "cluster_mode"
-        },
-        {
-            "name"        : "Categories",
-            "script"      : "components/categories/service.js",
-            "watch"       : true,
-            "merge_logs"  : true,
-            "instances"   : 1,
-            "exec_mode"   : "cluster_mode"
-        },
-        {
-            "name"        : "Public",
-            "script"      : "components/public/service.js",
-            "watch"       : false,
-            "merge_logs"  : true,
-            "instances"   : 1,
-            "exec_mode"   : "cluster_mode"
-        }
-  ],
   nodered: {
           
     // the tcp port that the Node-RED web server is listening on
@@ -80,7 +37,7 @@ module.exports = {
     debugMaxLength: 1000,
 
     // The file containing the flows. If not set, it defaults to flows_<hostname>.json
-    flowFile: 'dli_encyclopedia_flows.json',
+    flowFile: '<%= flowsFile %>.json',
     flowFilePretty: true,
 
     // By default, all user data is stored in the Node-RED install directory. To
@@ -218,7 +175,7 @@ module.exports = {
       "template": {
         "swagger": "2.0",
         "info": {
-          "title": "DLI Encyclopedia of Dry Cleaning",
+          "title": "<%= name %>",
           "version": "0.1.0"
         }
       }

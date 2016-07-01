@@ -18,11 +18,12 @@ module.exports = yeoman.Base.extend({
       message : 'What is your service name?',
       default : this.appname // Default to current folder name
     },
+    {
       type    : 'input',
       name    : 'port',
       message : 'Which port should this service run on?',
       default : servicePort // Default to current folder name    
-    ];
+    }];
 
     return this.prompt(prompts).then(function (props) {
       // To access props later use this.props.name;
@@ -51,7 +52,7 @@ module.exports = yeoman.Base.extend({
         this.destinationPath("tests"),
         { 
             name: capName,
-            port: this.config.get("servicePort")
+            port: this.props.port
         }
     );
     this.fs.copy(
@@ -62,12 +63,12 @@ module.exports = yeoman.Base.extend({
       this.templatePath('README.md'),
       this.destinationPath('README.md')
     );
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('service.js'),
       this.destinationPath('service.js'),
         { 
             name: capName,
-            port: this.config.get("servicePort")
+            port: this.props.port
         }        
     );
     this.mkdir('views');
