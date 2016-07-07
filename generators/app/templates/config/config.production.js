@@ -25,49 +25,6 @@ module.exports = {
     // change to true if you want to send emails
     sendemail:false
   },
-  services:  // A list of pm2-compatible JSON objects containing the microservice servers you want to spawn.
-    [
-        {
-            "name"          : "RedServer",
-            "script"        : "app.js",
-            "watch"         : false,
-            "merge_logs"    : true,
-            "instance"      : 1,
-            "exec_mode"     : "cluster_mode"
-        },
-        {
-            "name"        : "Users",
-            "script"      : "components/users/service.js",
-            "watch"       : true,
-            "merge_logs"  : true,
-            "instances"   : 1,
-            "exec_mode"   : "cluster_mode"
-        },
-        {
-            "name"        : "Articles",
-            "script"      : "components/articles/service.js",
-            "watch"       : true,
-            "merge_logs"  : true,
-            "instances"   : 1,
-            "exec_mode"   : "cluster_mode"
-        },
-        {
-            "name"        : "Categories",
-            "script"      : "components/categories/service.js",
-            "watch"       : true,
-            "merge_logs"  : true,
-            "instances"   : 1,
-            "exec_mode"   : "cluster_mode"
-        },
-        {
-            "name"        : "Public",
-            "script"      : "components/public/service.js",
-            "watch"       : false,
-            "merge_logs"  : true,
-            "instances"   : 1,
-            "exec_mode"   : "cluster_mode"
-        }
-  ],
   nodered: {
           
     // the tcp port that the Node-RED web server is listening on
@@ -85,7 +42,7 @@ module.exports = {
 
     // By default, all user data is stored in the Node-RED install directory. To
     // use a different location, the following property can be used
-    userDir: path.join(__dirname, "./flows"),
+    userDir: path.join(__dirname, "..", "/flows"),
 
     // Node-RED scans the `nodes` directory in the install directory to find nodes.
     // The following property can be used to specify an additional directory to scan.

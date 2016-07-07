@@ -1,18 +1,13 @@
 version: "2.0"
 
 services:
-    # flows data-only container
-    flows:
-        image: "node:argon"
-        volumeas:
-            - /usr/src/flows
     # node-red
     node-red:
         extends:
             file: "service-types.yml"
             service: "node-red"
         build: ./
-        volumes_from:
-            - flows
+        volumes:
+            - /usr/src/flows
         ports:
             - "80:80"

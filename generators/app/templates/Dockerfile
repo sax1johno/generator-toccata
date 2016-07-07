@@ -1,7 +1,7 @@
 FROM node:argon
 
 # Install nodemon
-RUN npm install -g nodemon
+RUN npm install -g forever
 
 # copy the source code and webapp to the webapp folder.
 RUN mkdir -p /usr/src/
