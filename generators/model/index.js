@@ -20,7 +20,7 @@ module.exports = yeoman.Base.extend({
 
     return this.prompt(prompts).then(function (props) {
       // To access props later use this.props.name;
-      this.config.set("name", name);
+      this.config.set("name", props.name);
       this.props = props;
     }.bind(this));
   },
@@ -61,8 +61,8 @@ module.exports = yeoman.Base.extend({
         }
       }
     }    
-    this.mkdir("models");
-    this.destinationRoot("models");
+    this.mkdir(__dirname + "/models");
+    this.destinationRoot(__dirname + "/models");
     this.fs.writeJSON(this.props.name, schema);
   },
     

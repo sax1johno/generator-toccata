@@ -66,6 +66,7 @@ module.exports = yeoman.Base.extend({
     }
     var YAMLString = yaml.stringify(dockerCompose, 5);
     console.log("Yaml string = ", YAMLString);
+    this.fs.write("docker-compose.yml", YAMLString);  
     this.mkdir("components/" + this.props.name);
     this.destinationRoot("components/" + this.props.name);
     this.fs.copyTpl(
