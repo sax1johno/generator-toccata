@@ -11,3 +11,12 @@ services:
             - /usr/src/flows
         ports:
             - "80:80"
+    views:
+        extends:
+            file: service-types.yml
+            service: microservice
+        build: ./components/Views
+        expose:
+            - '10201'
+        volumes:
+            - './components/Views/views:/usr/src/views'

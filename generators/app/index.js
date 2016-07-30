@@ -45,6 +45,10 @@ module.exports = yeoman.Base.extend({
   writing: function () {
     this.mkdir('components');
     this.fs.copy(
+        this.templatePath('components/*'),
+        this.destinationPath("components")
+    );
+    this.fs.copy(
       this.templatePath('app.js'),
       this.destinationPath('app.js')
     );
@@ -78,6 +82,7 @@ module.exports = yeoman.Base.extend({
     this.mkdir('public/css');
     this.mkdir('public/js');
     this.mkdir('public/img');
+    this.mkdir('public/components');
     this.fs.copy(
       this.templatePath('README.md'),
       this.destinationPath('README.md')

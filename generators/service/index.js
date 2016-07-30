@@ -48,27 +48,33 @@ module.exports = yeoman.Base.extend({
 
   writing: function () {
     var dockerCompose = yaml.load('docker-compose.yml');
-    dockerCompose.services[this.props.name] = {
+    var lowerName = this.props.name.toLowerCase();
+    var capName = this.props.name.toLowerCase().substr(0, 1).toUpperCase() + this.props.name.substr(1);    
+    dockerCompose.services[lowerName] = {
         "extends": {
             file: "service-types.yml",
             service: "microservice"
         },
-        "build": "./components/" + this.props.name,
+        "build": "./components/" + capName,
         "ports": [
-            "" + this.props.port + ":" + this.props.port
+            '10201'
+        ],
+        "volumes": [
+            './components/' + capName + '/views:/usr/src/views'
         ]
     }
     if (dockerCompose.services["node-red"].links) {
-        dockerCompose.services["node-red"].links.push(this.props.name)
+        dockerCompose.services["node-red"].links.push(lowerName)
     } else {
         dockerCompose.services["node-red"].links = [];
-        dockerCompose.services["node-red"].links.push(this.props.name)        
+        dockerCompose.services["node-red"].links.push(lowerName)        
     }
     var YAMLString = yaml.stringify(dockerCompose, 5);
     console.log("Yaml string = ", YAMLString);
-    this.fs.write("docker-compose.yml", YAMLString);  
-    this.mkdir("components/" + this.props.name);
-    this.destinationRoot("components/" + this.props.name);
+    this.fs.write("docker-compose.yml", YAMLString);
+    this.mkdir("components/" + capName);
+    this.mkdir("public/components/" + capName);
+    this.destinationRoot("components/" + capName);
     this.fs.copyTpl(
       this.templatePath('Dockerfile'),
       this.destinationPath('Dockerfile'),
@@ -77,7 +83,6 @@ module.exports = yeoman.Base.extend({
       }
     );
     this.mkdir('lib');
-    var capName = this.props.name.substr(0, 1).toUpperCase() + this.props.name.substr(1);
     this.fs.copyTpl(
       this.templatePath('lib/index.js'),
       this.destinationPath('lib/index.js'),
@@ -96,7 +101,7 @@ module.exports = yeoman.Base.extend({
       this.templatePath('package.json'),
       this.destinationPath('package.json'),
       {
-          name: this.props.name,
+          name: capName,
           description: this.props.description,
           author: this.props.author
       }
