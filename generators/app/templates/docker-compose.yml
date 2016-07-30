@@ -4,13 +4,16 @@ services:
     # node-red
     node-red:
         extends:
-            file: "service-types.yml"
-            service: "node-red"
+            file: service-types.yml
+            service: node-red
         build: ./
         volumes:
-            - /usr/src/flows
+            - './flows:/usr/src/flows'
+            - './public:/usr/src/public'
         ports:
-            - "80:80"
+            - '80:80'
+        links:
+            - views
     views:
         extends:
             file: service-types.yml
