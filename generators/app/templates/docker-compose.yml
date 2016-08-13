@@ -7,9 +7,7 @@ services:
             file: service-types.yml
             service: node-red
         build: ./
-        volumes:
-            - './flows:/usr/src/flows'
-            - './public:/usr/src/public'
+        restart: always
         ports:
             - '80:80'
         links:
@@ -19,7 +17,6 @@ services:
             file: service-types.yml
             service: microservice
         build: ./components/Views
+        restart: always        
         expose:
             - '10201'
-        volumes:
-            - './components/Views/views:/usr/src/views'

@@ -1,0 +1,10 @@
+version: "2.0"
+
+services:
+    node-red:
+        volumes:
+            - './config/flows:/usr/src/config/flows'
+            - './public:/usr/src/public'
+    views:
+        volumes:
+            - './components/Views/views:/usr/src/views'

@@ -48,6 +48,7 @@ module.exports = yeoman.Base.extend({
 
   writing: function () {
     var dockerCompose = yaml.load('docker-compose.yml');
+    var dockerComposeOverride = yaml.load("docker-compose.override.yml");
     var lowerName = this.props.name.toLowerCase();
     var capName = this.props.name.toLowerCase().substr(0, 1).toUpperCase() + this.props.name.substr(1);    
     dockerCompose.services[lowerName] = {
@@ -59,10 +60,16 @@ module.exports = yeoman.Base.extend({
         "ports": [
             '10201'
         ],
+        "restart": "always"
+    };
+
+    dockerComposeOverride.services[lowerName] = {
         "volumes": [
-            './components/' + capName + '/views:/usr/src/views'
+            './components/' + capName + '/views:/usr/src/views',
+            './components/' + capName + '/models:/usr/src/models'            
         ]
     }
+
     if (dockerCompose.services["node-red"].links) {
         dockerCompose.services["node-red"].links.push(lowerName)
     } else {
@@ -70,8 +77,10 @@ module.exports = yeoman.Base.extend({
         dockerCompose.services["node-red"].links.push(lowerName)        
     }
     var YAMLString = yaml.stringify(dockerCompose, 5);
+    var overrideString = yaml.stringify(dockerComposeOverride, 5);
     console.log("Yaml string = ", YAMLString);
     this.fs.write("docker-compose.yml", YAMLString);
+    this.fs.write("docker-compose.override.yml", overrideString);
     this.mkdir("components/" + capName);
     this.mkdir("public/components/" + capName);
     this.destinationRoot("components/" + capName);
