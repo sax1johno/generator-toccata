@@ -67,6 +67,10 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('docker-compose.yml')
     );
     this.fs.copy(
+      this.templatePath('docker-compose.override.yml'),
+      this.destinationPath('docker-compose.override.yml')
+    );
+    this.fs.copy(
       this.templatePath('Dockerfile'),
       this.destinationPath('Dockerfile')
     );
