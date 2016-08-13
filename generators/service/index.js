@@ -83,7 +83,7 @@ module.exports = yeoman.Base.extend({
         dockerCompose.services["node-red"].links = [];
         dockerCompose.services["node-red"].links.push(lowerName)        
     }
-    var YAMLString = yaml.stringify(dockerCompose, 5);
+    var YAMLString = yaml.stringify(dockerCompose, 6);
     var overrideString = yaml.stringify(dockerComposeOverride, 6);
     console.log("Yaml string = ", YAMLString);
     this.fs.write("docker-compose.yml", YAMLString);
