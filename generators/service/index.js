@@ -63,7 +63,7 @@ module.exports = yeoman.Base.extend({
         "networks": {
           "app": {
             "aliases": [
-              lowerName
+              "" + lowerName
             ]
           }
         },

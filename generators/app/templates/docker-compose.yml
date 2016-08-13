@@ -24,7 +24,7 @@ services:
         networks:
             app:
                 aliases:
-                    - views        
+                    - views
         restart: always        
         expose:
             - '10201'
