@@ -49,6 +49,10 @@ module.exports = yeoman.Base.extend({
   writing: function () {
     var dockerCompose = yaml.load('docker-compose.yml');
     var dockerComposeOverride = yaml.load("docker-compose.override.yml");
+    var networks = {
+      "networks": dockerCompose.networks
+    }
+    delete dockerCompose.networks;
     var lowerName = this.props.name.toLowerCase();
     var capName = this.props.name.toLowerCase().substr(0, 1).toUpperCase() + this.props.name.substr(1);    
     dockerCompose.services[lowerName] = {
@@ -85,7 +89,8 @@ module.exports = yeoman.Base.extend({
     }
     var YAMLString = yaml.stringify(dockerCompose, 6);
     var overrideString = yaml.stringify(dockerComposeOverride, 6);
-    console.log("Yaml string = ", YAMLString);
+    var networkString = yaml.stringify(networks, 1);
+    YAMLString += networkString;
     this.fs.write("docker-compose.yml", YAMLString);
     this.fs.write("docker-compose.override.yml", overrideString);
     this.mkdir("components/" + capName);
