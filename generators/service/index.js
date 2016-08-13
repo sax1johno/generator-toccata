@@ -63,7 +63,7 @@ module.exports = yeoman.Base.extend({
         "networks": {
           "app": {
             "aliases": [
-              "" + lowerName
+              lowerName
             ]
           }
         },
@@ -84,7 +84,7 @@ module.exports = yeoman.Base.extend({
         dockerCompose.services["node-red"].links.push(lowerName)        
     }
     var YAMLString = yaml.stringify(dockerCompose, 5);
-    var overrideString = yaml.stringify(dockerComposeOverride, 5);
+    var overrideString = yaml.stringify(dockerComposeOverride, 6);
     console.log("Yaml string = ", YAMLString);
     this.fs.write("docker-compose.yml", YAMLString);
     this.fs.write("docker-compose.override.yml", overrideString);
