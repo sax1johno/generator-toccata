@@ -89,7 +89,7 @@ module.exports = yeoman.Base.extend({
     }
     var YAMLString = yaml.stringify(dockerCompose, 6);
     var overrideString = yaml.stringify(dockerComposeOverride, 6);
-    var networkString = yaml.stringify(networks, 1);
+    var networkString = yaml.stringify(networks, 2);
     YAMLString += networkString;
     this.fs.write("docker-compose.yml", YAMLString);
     this.fs.write("docker-compose.override.yml", overrideString);
