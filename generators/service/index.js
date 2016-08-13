@@ -60,6 +60,13 @@ module.exports = yeoman.Base.extend({
         "ports": [
             '10201'
         ],
+        "networks": {
+          "app": {
+            "aliases": [
+              lowerName
+            ]
+          }
+        },
         "restart": "always"
     };
 
@@ -106,6 +113,7 @@ module.exports = yeoman.Base.extend({
             port: this.props.port
         }
     );
+    this.mkdir('models');
     this.fs.copyTpl(
       this.templatePath('package.json'),
       this.destinationPath('package.json'),

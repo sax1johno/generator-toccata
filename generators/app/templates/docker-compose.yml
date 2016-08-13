@@ -8,6 +8,10 @@ services:
             service: node-red
         build: ./
         restart: always
+        networks:
+            app:
+                aliases:
+                    - node-red
         ports:
             - '80:80'
         links:
@@ -17,6 +21,13 @@ services:
             file: service-types.yml
             service: microservice
         build: ./components/Views
+        networks:
+            app:
+                aliases:
+                    - views        
         restart: always        
         expose:
             - '10201'
+
+networks:
+    app: {}
