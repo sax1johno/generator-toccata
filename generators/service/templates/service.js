@@ -1,4 +1,7 @@
-var sutil = require('util');
+var sutil = require('util'),
+    path = require('path'),
+    fs = require('fs'),
+    async = require('async');
 
 var seneca = require('seneca')();
 
