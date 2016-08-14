@@ -1,19 +1,31 @@
 version: "2.0"
 
 services:
+    nginx:
+        # The load balancer container. Built from the lb/Dockerfile.
+        # Allows scaling of the node-red app processes.
+        container_name: nginx
+        build: nginx
+        restart: unless-stopped
+        networks:
+          - app
+        ports:
+          - "80:80"
     # node-red
     node-red:
         extends:
             file: service-types.yml
             service: node-red
         build: ./
-        restart: always
+        ports:
+            - '80'
+        restart: unless-stopped
+        depends_on:
+          - nginx
         networks:
             app:
                 aliases:
                     - node-red
-        ports:
-            - '80:80'
         links:
             - views
     views:
@@ -21,6 +33,7 @@ services:
             file: service-types.yml
             service: microservice
         build: ./components/Views
+        restart: unless-stopped        
         networks:
             app:
                 aliases:
