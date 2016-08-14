@@ -1,6 +1,6 @@
 {
   "name": "generator-toccata",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Generates a web app using toccata, a docker-based microservices system.",
   "homepage": "",
   "author": {
