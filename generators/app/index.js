@@ -48,7 +48,10 @@ module.exports = yeoman.Base.extend({
         this.templatePath('components/**/*'),
         this.destinationPath("components")
     );
-
+    this.fs.copy(
+        this.templatePath('nginx/**/*'),
+        this.destinationPath("nginx")
+    );
     this.fs.copy(
       this.templatePath('app.js'),
       this.destinationPath('app.js')
