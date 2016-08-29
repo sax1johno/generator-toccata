@@ -105,6 +105,7 @@ module.exports = yeoman.Base.extend({
     this.mkdir('public/js');
     this.mkdir('public/img');
     this.mkdir('public/components');
+    this.mkdir('flows');
     this.fs.copy(
       this.templatePath('README.md'),
       this.destinationPath('README.md')
