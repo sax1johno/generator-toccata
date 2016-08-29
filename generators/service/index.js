@@ -30,13 +30,8 @@ module.exports = yeoman.Base.extend({
         name: 'author',
         message: "Service author:",
         default: "Joe Sample (sample@example.com)"
-    },
-    {
-      type    : 'input',
-      name    : 'port',
-      message : 'Which port should this service run on?',
-      default : servicePort // Default to current folder name    
-    }];
+    }
+    ];
 
     return this.prompt(prompts).then(function (props) {
       // To access props later use this.props.name;
@@ -49,6 +44,7 @@ module.exports = yeoman.Base.extend({
   writing: function () {
     var dockerCompose = yaml.load('docker-compose.yml');
     var dockerComposeOverride = yaml.load("docker-compose.override.yml");
+    var dockerComposeProduction = yaml.load("docker-compose.production.yml");    
     var networks = {
       "networks": dockerCompose.networks
     }
@@ -81,6 +77,15 @@ module.exports = yeoman.Base.extend({
         ]
     }
 
+    dockerComposeProduction.services[lowerName] = {
+        "environment": {
+          "NODE_ENV": "production",
+          "ENV": "production"
+        }
+    }
+
+
+
     if (dockerCompose.services["node-red"].links) {
         dockerCompose.services["node-red"].links.push(lowerName)
     } else {
@@ -89,10 +94,12 @@ module.exports = yeoman.Base.extend({
     }
     var YAMLString = yaml.stringify(dockerCompose, 6);
     var overrideString = yaml.stringify(dockerComposeOverride, 6);
+    var productionString = yaml.stringify(dockerComposeProduction, 6);
     var networkString = yaml.stringify(networks, 2);
     YAMLString += networkString;
     this.fs.write("docker-compose.yml", YAMLString);
     this.fs.write("docker-compose.override.yml", overrideString);
+    this.fs.write("docker-compose.production.yml", productionString);
     this.mkdir("components/" + capName);
     this.mkdir("public/components/" + capName);
     this.destinationRoot("components/" + capName);
