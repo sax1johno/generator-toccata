@@ -61,14 +61,17 @@ module.exports = yeoman.Base.extend({
             '10201'
         ],
         "networks": {
-          "app": {
-            "aliases": [
-              lowerName
-            ]
-          }
         },
         "restart": "always"
     };
+
+    dockerCompose.services[lowerName].networks[this.config.get('networkName')] = {
+      "app": {
+        "aliases": [
+          lowerName
+        ]
+      }
+    }
 
     dockerComposeOverride.services[lowerName] = {
         "volumes": [

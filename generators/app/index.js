@@ -44,6 +44,7 @@ module.exports = yeoman.Base.extend({
 
     return this.prompt(prompts).then(function (props) {
       // To access props later use this.props.someAnswer;
+      this.config.set("networkName", props.networkName);
       this.props = props;
     }.bind(this));
   },
