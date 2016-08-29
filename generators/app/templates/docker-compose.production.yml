@@ -2,6 +2,10 @@ version: "2.0"
 
 services:
     node-red:
-        env: "production"
+        environment:
+            NODE_ENV: production
+            ENV: production
     views:
-        env: "production"
+        environment:
+            NODE_ENV: production
+            ENV: production
