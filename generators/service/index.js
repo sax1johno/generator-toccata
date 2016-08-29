@@ -73,8 +73,8 @@ module.exports = yeoman.Base.extend({
 
     dockerComposeOverride.services[lowerName] = {
       "environment": [
-            "NODE_ENV=production",
-            "ENV=production"
+            "NODE_ENV=development",
+            "ENV=development"
       ],
         "volumes": [
             './components/' + capName + '/views:/usr/src/views',
@@ -83,10 +83,10 @@ module.exports = yeoman.Base.extend({
     }
 
     dockerComposeProduction.services[lowerName] = {
-        "environment": {
-          "NODE_ENV": "production",
-          "ENV": "production"
-        }
+      "environment": [
+            "NODE_ENV=production",
+            "ENV=production"
+      ],
     }
 
 
