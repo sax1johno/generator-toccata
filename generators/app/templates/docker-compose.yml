@@ -8,7 +8,7 @@ services:
         build: nginx
         restart: unless-stopped
         networks:
-          - app
+          - <%= networkName %>
         ports:
           - "80:80"
     # node-red
@@ -23,7 +23,7 @@ services:
         depends_on:
           - nginx
         networks:
-            app:
+            <%= networkName %>:
                 aliases:
                     - node-red
         links:
@@ -35,7 +35,7 @@ services:
         build: ./components/Views
         restart: unless-stopped        
         networks:
-            app:
+            <%= networkName %>:
                 aliases:
                     - views
         restart: always        
@@ -43,4 +43,4 @@ services:
             - '10201'
 
 networks:
-    app: {}
+    <%= networkName %>: {}

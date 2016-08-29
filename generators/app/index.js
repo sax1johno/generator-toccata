@@ -33,6 +33,12 @@ module.exports = yeoman.Base.extend({
       name    : 'flowsFile',
       message : 'Flow File Name',
       default : "myapp"
+    },
+    {
+      type    : "input",
+      name    : "networkName",
+      message : "Internal Network Name",
+      default : this.appname // default to current folder name.
     }
     ];      
 
@@ -65,9 +71,12 @@ module.exports = yeoman.Base.extend({
             flowsFile: this.props.flowsFile
         }
     );
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('docker-compose.yml'),
-      this.destinationPath('docker-compose.yml')
+      this.destinationPath('docker-compose.yml'),
+      {
+        networkName: this.props.networkName
+      }
     );
     this.fs.copy(
       this.templatePath('docker-compose.override.yml'),
