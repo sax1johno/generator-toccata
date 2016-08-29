@@ -66,11 +66,9 @@ module.exports = yeoman.Base.extend({
     };
 
     dockerCompose.services[lowerName].networks[this.config.get('networkName')] = {
-      "app": {
-        "aliases": [
-          lowerName
-        ]
-      }
+      "aliases": [
+        lowerName
+      ]
     }
 
     dockerComposeOverride.services[lowerName] = {
