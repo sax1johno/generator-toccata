@@ -9,6 +9,12 @@ var pluginName = "<%= name %>";
 
 seneca
   .use('seneca-entity')
+  .client(
+         {
+             type: 'tcp', host: 'views',
+             pins: [{ role: "views", cmd: "*" }]
+         }
+     ) // Connects up with the "views" engine.  
   .use('./lib/index', {"pluginName": pluginName})
   .listen({type: 'tcp'})
   .ready(function(err) {
