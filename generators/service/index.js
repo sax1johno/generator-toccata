@@ -112,7 +112,7 @@ module.exports = yeoman.Base.extend({
       this.templatePath('Dockerfile'),
       this.destinationPath('Dockerfile'),
       {
-          port: this.props.port
+          port: 10201
       }
     );
     this.mkdir('lib');
@@ -127,7 +127,7 @@ module.exports = yeoman.Base.extend({
         this.destinationPath("tests"),
         { 
             name: capName,
-            port: this.props.port
+            port: 10201
         }
     );
     this.mkdir('models');
@@ -149,7 +149,7 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('service.js'),
         { 
             name: capName,
-            port: this.props.port
+            port: 10201
         }
     );
     this.mkdir('views');
