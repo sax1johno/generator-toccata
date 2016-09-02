@@ -57,12 +57,12 @@ module.exports = yeoman.Base.extend({
             service: "microservice"
         },
         "build": "./components/" + capName,
-        "ports": [
-            '10201'
-        ],
         "networks": {
         },
-        "restart": "unless-stopped"
+        "restart": "unless-stopped",
+        "expose": [
+            '10201'
+        ]        
     };
 
     dockerCompose.services[lowerName].networks[this.config.get('networkName')] = {
