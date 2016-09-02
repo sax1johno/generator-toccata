@@ -62,7 +62,10 @@ module.exports = yeoman.Base.extend({
         "restart": "unless-stopped",
         "expose": [
             '10201'
-        ]        
+        ],
+        "links": [
+          "views"
+        ]
     };
 
     dockerCompose.services[lowerName].networks[this.config.get('networkName')] = {
