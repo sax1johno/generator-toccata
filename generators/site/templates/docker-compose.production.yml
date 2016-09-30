@@ -1,0 +1,11 @@
+version: "2.0"
+
+services:
+    node-red:
+        environment:
+            - NODE_ENV=production
+            - ENV=production
+    views:
+        environment:
+            - NODE_ENV=production
+            - ENV=production

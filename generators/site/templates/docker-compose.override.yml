@@ -1,0 +1,17 @@
+version: "2.0"
+
+services:
+    node-red:
+        volumes:
+            - './flows:/usr/src/flows'
+            - './public:/usr/src/public'
+        environment:
+            - NODE_ENV=development
+            - ENV=development
+    views:
+        environment:
+            - NODE_ENV=development
+            - ENV=development
+        volumes:
+            - './components/Views/views:/usr/src/views'
+            - './components/Views/models:/usr/src/models'

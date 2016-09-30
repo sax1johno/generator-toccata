@@ -1,0 +1,29 @@
+{
+  "name": "Views",
+  "version": "1.0.0",
+  "description": "Handles all of the views in the application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node service.js"
+  },
+  "author": "John OConnor (sax1johno@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.0-rc.5",
+    "seneca": "^2.0.1",
+    "seneca-account": "^0.1.8",
+    "seneca-auth": "^1.0.1",
+    "seneca-data-editor": "^0.2.0",
+    "seneca-entity": "^0.1.1",
+    "seneca-jsonrest-api": "^0.3.1",
+    "seneca-mongo-store": "^0.2.0",
+    "seneca-perm": "^0.5.6",
+    "seneca-user": "^1.0.1",
+    "seneca-views": "^0.1.24",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  }
+}
