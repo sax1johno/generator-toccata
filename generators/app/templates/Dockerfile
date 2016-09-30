@@ -14,6 +14,7 @@ COPY package.json /usr/src
 COPY config /usr/src/config
 COPY app.js /usr/src
 COPY public /usr/src/public
+COPY flows /usr/src/flows
 
 ENV PORT 80
 EXPOSE 80

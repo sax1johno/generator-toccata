@@ -7,7 +7,7 @@ var express = require("express");
 var seneca = require('seneca')();
 var RED = require("node-red"),
     app = express(),
-    environment = app.get("ENV") || "development";
+    environment = app.settings.env;
 var formidable = require('formidable');
 var expressSession = require('express-session');
 var passport = require('passport');
@@ -32,7 +32,9 @@ seneca.ready(function(err){
         RED.init(server,config.nodered);
         
         // Serve the editor UI from /red
-        app.use(config.nodered.httpAdminRoot,RED.httpAdmin);
+        if (config.nodered.httpAdminRoot) {
+            app.use(config.nodered.httpAdminRoot,RED.httpAdmin);
+        }
         
         // Serve the http nodes UI from /api
         app.use(config.nodered.httpNodeRoot,RED.httpNode);

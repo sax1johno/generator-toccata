@@ -17,7 +17,7 @@ var path = require('path'),
     expressSession = require('express-session');
     
 module.exports = {
-  appName: "DLI Encyclopedia of Dry Cleaning",
+  appName: "<%= name %>",
   main: {
     port:process.env.PORT
   },
@@ -28,7 +28,7 @@ module.exports = {
   nodered: {
           
     // the tcp port that the Node-RED web server is listening on
-    uiPort: (process.env.PORT || 1880),
+    uiPort: 1880,
     // Retry time in milliseconds for MQTT connections
     mqttReconnectTime: 15000,
     // Retry time in milliseconds for Serial port connections
@@ -37,12 +37,12 @@ module.exports = {
     debugMaxLength: 1000,
 
     // The file containing the flows. If not set, it defaults to flows_<hostname>.json
-    //flowFile: 'flows.json',
+    flowFile: '<%= flowsFile %>.json',
     flowFilePretty: true,
 
     // By default, all user data is stored in the Node-RED install directory. To
     // use a different location, the following property can be used
-    userDir: path.join(__dirname, "..", "/flows"),
+    userDir: path.join(__dirname, "..", "flows"),
 
     // Node-RED scans the `nodes` directory in the install directory to find nodes.
     // The following property can be used to specify an additional directory to scan.
@@ -102,7 +102,7 @@ module.exports = {
     // The following property can be used to disable the editor. The admin API
     // is not affected by this option. To disable both the editor and the admin
     // API, use either the httpRoot or httpAdminRoot properties
-    disableEditor: true,
+    //disableEditor: false,
 
     // The following property can be used to configure cross-origin resource sharing
     // in the HTTP nodes.
@@ -175,7 +175,7 @@ module.exports = {
       "template": {
         "swagger": "2.0",
         "info": {
-          "title": "DLI Encyclopedia of Dry Cleaning",
+          "title": "<%= name %>",
           "version": "0.1.0"
         }
       }
