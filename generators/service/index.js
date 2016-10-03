@@ -10,10 +10,19 @@ module.exports = yeoman.Base.extend({
     this.log(yosay(
       'Welcome to the glorious ' + chalk.red('generator-toccata') + ' generator!'
     ));
-
+    var mySites = this.config.get("sites").map(function(site) {
+      return site.name;
+    });
     var servicePort = (this.config.get('servicePort') + 1) || 1000;
     var serviceNumber = (this.config.get("serviceNumber") + 1) || 1;
-    var prompts = [{
+    var prompts = [
+    {
+      type: 'list',
+      name: 'site',
+      message: 'Choose a site for this service: ',
+      choices: mySites
+    },
+    {
       type    : 'input',
       name    : 'name',
       message : 'What is your service name?',
@@ -108,7 +117,8 @@ module.exports = yeoman.Base.extend({
     this.fs.write("docker-compose.yml", YAMLString);
     this.fs.write("docker-compose.override.yml", overrideString);
     this.fs.write("docker-compose.production.yml", productionString);
-    this.mkdir("components/" + capName);
+    this.destinationRoot("sites/" + this.props.site); 
+    this.mkdir("/components/" + capName);
     this.mkdir("public/components/" + capName);
     this.destinationRoot("components/" + capName);
     this.fs.copyTpl(

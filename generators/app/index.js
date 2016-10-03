@@ -7,7 +7,7 @@ module.exports = yeoman.Base.extend({
   prompting: function () {
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the bee\'s knees ' + chalk.red('generator-toccata') + ' generator!'
+      'Welcome to the Toccata ' + chalk.red('App Generator') + '!'
     ));
 
     var prompts = [{
@@ -28,19 +28,7 @@ module.exports = yeoman.Base.extend({
       message : 'Author Name',
       default : "John O'Connor (sax1johno@gmail.com)"
     },
-    {
-      type    : 'input',
-      name    : 'flowsFile',
-      message : 'Flow File Name',
-      default : "myapp"
-    },
-    {
-      type    : "input",
-      name    : "networkName",
-      message : "Internal Network Name",
-      default : this.appname // default to current folder name.
-    }
-    ];      
+    ];
 
     return this.prompt(prompts).then(function (props) {
       // To access props later use this.props.someAnswer;
@@ -50,34 +38,13 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    this.mkdir('components');
-    this.fs.copy(
-        this.templatePath('components/**/*'),
-        this.destinationPath("components")
-    );
     this.fs.copy(
         this.templatePath('nginx/**/*'),
         this.destinationPath("nginx")
     );
     this.fs.copy(
-      this.templatePath('app.js'),
-      this.destinationPath('app.js')
-    );
-    this.mkdir('config');
-    this.fs.copyTpl(
-        this.templatePath("config/*"),
-        this.destinationPath("config"),
-        {
-            name: this.props.name,
-            flowsFile: this.props.flowsFile
-        }
-    );
-    this.fs.copyTpl(
       this.templatePath('docker-compose.yml'),
-      this.destinationPath('docker-compose.yml'),
-      {
-        networkName: this.props.networkName
-      }
+      this.destinationPath('docker-compose.yml')
     );
     this.fs.copy(
       this.templatePath('docker-compose.override.yml'),
@@ -86,11 +53,8 @@ module.exports = yeoman.Base.extend({
     this.fs.copy(
       this.templatePath('docker-compose.production.yml'),
       this.destinationPath('docker-compose.production.yml')
-    );    
-    this.fs.copy(
-      this.templatePath('Dockerfile'),
-      this.destinationPath('Dockerfile')
     );
+
     this.fs.copyTpl(
       this.templatePath('package.json'),
       this.destinationPath('package.json'),
@@ -100,21 +64,11 @@ module.exports = yeoman.Base.extend({
           author: this.props.author
       }
     );
-    this.mkdir('public');
-    this.mkdir('public/css');
-    this.mkdir('public/js');
-    this.mkdir('public/img');
-    this.mkdir('public/components');
-    this.mkdir('flows');
+    this.mkdir('sites');
     this.fs.copy(
       this.templatePath('README.md'),
       this.destinationPath('README.md')
     );
-    this.fs.copy(
-      this.templatePath('service-types.yml'),
-      this.destinationPath('service-types.yml')
-    );
-
   },
 
   install: function () {
