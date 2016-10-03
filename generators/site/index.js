@@ -104,6 +104,32 @@ module.exports = yeoman.Base.extend({
       ]
     }
 
+    dockerCompose.services[nodeRedServiceName].links = [];
+    dockerCompose.services[nodeRedServiceName].links.push(this.props.name + '_views');
+
+
+    // Add in views.
+    dockerCompose.services[this.props.name + "_views"] = {
+      "extends": {
+        "file": "service-types.yml",
+        "service": "microservice"
+      },
+      "build": "/sites/" + this.props.name + "/components/Views",
+      "restart": "always",
+      "networks": {
+      }.
+      "expose": [
+        "10201"
+      ]
+    }
+
+    dockerCompose.services[this.props.name + "_views"].networks[this.props.networkName] = {
+      "aliases": [
+        this.props.name + '_views'
+      ]
+    }
+
+
     if (!dockerComposeOverride.services) {
       dockerComposeOverride.services = [];
     }
@@ -142,6 +168,7 @@ module.exports = yeoman.Base.extend({
     nginxConf.create("nginx/nginx.conf", function(err, conf) {
       if (err) {
         done(err);
+        console.error(err);
       }
 
       conf.nginx.http._add('server');
@@ -175,7 +202,6 @@ module.exports = yeoman.Base.extend({
             flowsFile: this.props.flowsFile
         }
     );
-
 
     // this.fs.copyTpl(
     //   this.templatePath('docker-compose.yml'),
