@@ -117,7 +117,7 @@ module.exports = yeoman.Base.extend({
       "build": "/sites/" + this.props.name + "/components/Views",
       "restart": "always",
       "networks": {
-      }.
+      },
       "expose": [
         "10201"
       ]
