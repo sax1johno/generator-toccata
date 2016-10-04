@@ -55,6 +55,11 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('docker-compose.production.yml')
     );
 
+    this.fs.copy(
+      this.templatePath('service-types.yml'),
+      this.destinationPath('services-types.yml')
+    );
+
     this.fs.copyTpl(
       this.templatePath('package.json'),
       this.destinationPath('package.json'),

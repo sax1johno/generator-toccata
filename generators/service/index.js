@@ -60,7 +60,7 @@ module.exports = yeoman.Base.extend({
     delete dockerCompose.networks;
     var lowerName = this.props.name.toLowerCase();
     var capName = this.props.name.toLowerCase().substr(0, 1).toUpperCase() + this.props.name.substr(1);    
-    dockerCompose.services[lowerName] = {
+    dockerCompose.services[this.props.site + "_" + lowerName] = {
         "extends": {
             file: "service-types.yml",
             service: "microservice"
@@ -76,14 +76,23 @@ module.exports = yeoman.Base.extend({
           "views"
         ]
     };
+    var generator = this;
 
-    dockerCompose.services[lowerName].networks[this.config.get('networkName')] = {
+    var networkName = this.config.get("sites").filter(function(site) {
+      if (site.name == generator.site) {
+        return true;
+      }
+    })[0];
+
+    console.log(JSON.stringify(networkName));
+
+    dockerCompose.services[this.props.site + "_" + lowerName].networks[networkName] = {
       "aliases": [
         lowerName
       ]
     }
 
-    dockerComposeOverride.services[lowerName] = {
+    dockerComposeOverride.services[this.props.site + "_" + lowerName] = {
       "environment": [
             "NODE_ENV=development",
             "ENV=development"
@@ -94,7 +103,7 @@ module.exports = yeoman.Base.extend({
         ]
     }
 
-    dockerComposeProduction.services[lowerName] = {
+    dockerComposeProduction.services[this.props.site + "_" + lowerName] = {
       "environment": [
             "NODE_ENV=production",
             "ENV=production"
@@ -103,11 +112,11 @@ module.exports = yeoman.Base.extend({
 
 
 
-    if (dockerCompose.services["node-red"].links) {
-        dockerCompose.services["node-red"].links.push(lowerName)
+    if (dockerCompose.services[this.props.site + "_node-red"].links) {
+        dockerCompose.services[this.props.site + "_node-red"].links.push(this.props.site + "_" + lowerName)
     } else {
-        dockerCompose.services["node-red"].links = [];
-        dockerCompose.services["node-red"].links.push(lowerName)        
+        dockerCompose.services[this.props.site + "_node-red"].links = [];
+        dockerCompose.services[this.props.site + "_node-red"].links.push(this.props.site + "_" + lowerName)        
     }
     var YAMLString = yaml.stringify(dockerCompose, 6);
     var overrideString = yaml.stringify(dockerComposeOverride, 6);
