@@ -57,7 +57,7 @@ module.exports = yeoman.Base.extend({
 
     this.fs.copy(
       this.templatePath('service-types.yml'),
-      this.destinationPath('services-types.yml')
+      this.destinationPath('service-types.yml')
     );
 
     this.fs.copyTpl(

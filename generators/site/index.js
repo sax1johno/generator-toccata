@@ -59,19 +59,19 @@ module.exports = yeoman.Base.extend({
 
   writing: function () {
     var writingDefer = q.defer();
-    // var lowerName = this.props.name.toLowerCase();    
-
+    var lowerName = this.props.name.toLowerCase();
+    var networkName = this.props.networkName.toLowerCase();
     // Set up the site in the docker-compose file
     var dockerCompose = yaml.load('docker-compose.yml');
     var dockerComposeOverride = yaml.load("docker-compose.override.yml");
     var dockerComposeProduction = yaml.load("docker-compose.production.yml");
 
-    var nodeRedServiceName = this.props.name + "_node-red";
+    var nodeRedServiceName = lowerName + "_node-red";
     // Add to the nginx container.
     if (!dockerCompose.services["nginx"].networks) {
       dockerCompose.services["nginx"].networks = []; 
     }
-    dockerCompose.services["nginx"].networks.push(this.props.networkName);    
+    dockerCompose.services["nginx"].networks.push(networkName);    
     dockerCompose.services[nodeRedServiceName] = {
       "extends": {
         file: "service-types.yml",
@@ -93,32 +93,32 @@ module.exports = yeoman.Base.extend({
     if (!dockerCompose.networks) {
       dockerCompose.networks = {};
     }
-    dockerCompose.networks[this.props.networkName] = {};
+    dockerCompose.networks[networkName] = {};
     var networks = {
       "networks": dockerCompose.networks
     }
 
     delete dockerCompose.networks;
-    var lowerName = this.props.name.toLowerCase();
+    // var lowerName = this.props.name.toLowerCase();
     var capName = this.props.name.toLowerCase().substr(0, 1).toUpperCase() + this.props.name.substr(1);    
 
-    dockerCompose.services[nodeRedServiceName].networks[this.props.networkName] = {
+    dockerCompose.services[nodeRedServiceName].networks[networkName] = {
       "aliases": [
-        this.props.name + "_node-red"
+        lowerName + "_node-red"
       ]
     }
 
     dockerCompose.services[nodeRedServiceName].links = [];
-    dockerCompose.services[nodeRedServiceName].links.push(this.props.name + '_views');
+    dockerCompose.services[nodeRedServiceName].links.push(lowerName + '_views');
 
 
     // Add in views.
-    dockerCompose.services[this.props.name + "_views"] = {
+    dockerCompose.services[lowerName + "_views"] = {
       "extends": {
         "file": "service-types.yml",
         "service": "microservice"
       },
-      "build": "/sites/" + this.props.name + "/components/Views",
+      "build": "sites/" + this.props.name + "/components/Views",
       "restart": "always",
       "networks": {
       },
@@ -127,9 +127,9 @@ module.exports = yeoman.Base.extend({
       ]
     }
 
-    dockerCompose.services[this.props.name + "_views"].networks[this.props.networkName] = {
+    dockerCompose.services[lowerName + "_views"].networks[networkName] = {
       "aliases": [
-        this.props.name + '_views'
+        lowerName + '_views'
       ]
     }
 
@@ -177,7 +177,7 @@ module.exports = yeoman.Base.extend({
       conf.nginx.http._add('server');
       if (!Array.isArray(conf.nginx.http.server)) {
         conf.nginx.http.server._add('listen', '80');
-        conf.nginx.http.server._add("set $alias", nodeRedServiceName);
+        conf.nginx.http.server._add("set $alias", '"' + nodeRedServiceName + '"');
         conf.nginx.http.server._add('location', '/');
         conf.nginx.http.server.location._add('proxy_pass', 'http://$alias');
         conf.nginx.http.server.location._add('proxy_http_version', '1.1');
@@ -226,6 +226,11 @@ module.exports = yeoman.Base.extend({
             }
         );
 
+        generator.mkdir("components");
+        generator.fs.copy(
+          generator.templatePath("components/**/*"),
+          generator.destinationPath("components")
+        );
         // generator.fs.copyTpl(
         //   generator.templatePath('docker-compose.yml'),
         //   generator.destinationPath('docker-compose.yml'),
