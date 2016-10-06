@@ -59,13 +59,25 @@ module.exports = yeoman.Base.extend({
     }
     delete dockerCompose.networks;
     var lowerName = this.props.name.toLowerCase();
-    var capName = this.props.name.toLowerCase().substr(0, 1).toUpperCase() + this.props.name.substr(1);    
-    dockerCompose.services[this.props.site + "_" + lowerName] = {
+    var capName = this.props.name.toLowerCase().substr(0, 1).toUpperCase() + this.props.name.substr(1);
+    var nodeRedServiceName = lowerName + "_node-red"; 
+    var lowerSiteName = this.props.site.toLowerCase();
+    var generator = this;
+
+    var chosenSite = this.config.get("sites").filter(function(site) {
+      console.log("Site name = ", site.name);
+      console.log("Generator site = ", generator.props.site);
+      if (site.name == generator.props.site) {
+        return true;
+      }
+    })[0];
+
+    dockerCompose.services[lowerSiteName + "_" + lowerName] = {
         "extends": {
             file: "service-types.yml",
             service: "microservice"
         },
-        "build": "./components/" + capName,
+        "build": "sites/" + chosenSite.name + "/components/" + capName,
         "networks": {
         },
         "restart": "unless-stopped",
@@ -73,26 +85,20 @@ module.exports = yeoman.Base.extend({
             '10201'
         ],
         "links": [
-          "views"
+          lowerSiteName + "_views"
         ]
     };
-    var generator = this;
 
-    var networkName = this.config.get("sites").filter(function(site) {
-      if (site.name == generator.site) {
-        return true;
-      }
-    })[0];
-
+    var networkName = chosenSite.networkName.toLowerCase();
     console.log(JSON.stringify(networkName));
 
-    dockerCompose.services[this.props.site + "_" + lowerName].networks[networkName] = {
+    dockerCompose.services[lowerSiteName + "_" + lowerName].networks[networkName] = {
       "aliases": [
         lowerName
       ]
     }
 
-    dockerComposeOverride.services[this.props.site + "_" + lowerName] = {
+    dockerComposeOverride.services[lowerSiteName + "_" + lowerName] = {
       "environment": [
             "NODE_ENV=development",
             "ENV=development"
@@ -103,7 +109,7 @@ module.exports = yeoman.Base.extend({
         ]
     }
 
-    dockerComposeProduction.services[this.props.site + "_" + lowerName] = {
+    dockerComposeProduction.services[lowerSiteName + "_" + lowerName] = {
       "environment": [
             "NODE_ENV=production",
             "ENV=production"
@@ -111,13 +117,10 @@ module.exports = yeoman.Base.extend({
     }
 
 
-
-    if (dockerCompose.services[this.props.site + "_node-red"].links) {
-        dockerCompose.services[this.props.site + "_node-red"].links.push(this.props.site + "_" + lowerName)
-    } else {
-        dockerCompose.services[this.props.site + "_node-red"].links = [];
-        dockerCompose.services[this.props.site + "_node-red"].links.push(this.props.site + "_" + lowerName)        
+    if (!dockerCompose.services[lowerSiteName + "_node-red"].links) {
+        dockerCompose.services[lowerSiteName + "_node-red"].links = [];
     }
+    dockerCompose.services[lowerSiteName + "_node-red"].links.push(lowerSiteName + "_" + lowerName);
     var YAMLString = yaml.stringify(dockerCompose, 6);
     var overrideString = yaml.stringify(dockerComposeOverride, 6);
     var productionString = yaml.stringify(dockerComposeProduction, 6);
@@ -126,8 +129,8 @@ module.exports = yeoman.Base.extend({
     this.fs.write("docker-compose.yml", YAMLString);
     this.fs.write("docker-compose.override.yml", overrideString);
     this.fs.write("docker-compose.production.yml", productionString);
-    this.destinationRoot("sites/" + this.props.site); 
-    this.mkdir("/components/" + capName);
+    this.destinationRoot("sites/" + this.props.site);
+    this.mkdir("components/" + capName);
     this.mkdir("public/components/" + capName);
     this.destinationRoot("components/" + capName);
     this.fs.copyTpl(
