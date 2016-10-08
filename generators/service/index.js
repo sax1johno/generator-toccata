@@ -104,8 +104,8 @@ module.exports = yeoman.Base.extend({
             "ENV=development"
       ],
         "volumes": [
-            './components/' + capName + '/views:/usr/src/views',
-            './components/' + capName + '/models:/usr/src/models'            
+            './sites/' + this.props.site + '/flows:/usr/src/flows',
+            './sites/' + this.props.site + '/public:/usr/src/public'
         ]
     }
 

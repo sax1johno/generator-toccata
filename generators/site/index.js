@@ -147,6 +147,16 @@ module.exports = yeoman.Base.extend({
             './sites/' + this.props.name + '/public:/usr/src/public'
         ]
     }
+    dockerComposeOverride.services[lowerName + "_views"] = {
+      "environment": [
+            "NODE_ENV=development",
+            "ENV=development"
+      ],
+        "volumes": [
+            './sites/' + this.props.name + '/flows:/usr/src/flows',
+            './sites/' + this.props.name + '/public:/usr/src/public'
+        ]
+    }    
     if (!dockerComposeProduction.services) {
       dockerComposeProduction.services = {};
     }
