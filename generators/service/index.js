@@ -94,7 +94,7 @@ module.exports = yeoman.Base.extend({
 
     dockerCompose.services[lowerSiteName + "_" + lowerName].networks[networkName] = {
       "aliases": [
-        lowerName
+        lowerSiteName + "_" + lowerName
       ]
     }
 

@@ -71,7 +71,7 @@ module.exports = yeoman.Base.extend({
     if (!dockerCompose.services["nginx"].networks) {
       dockerCompose.services["nginx"].networks = []; 
     }
-    dockerCompose.services["nginx"].networks.push(networkName);    
+    dockerCompose.services["nginx"].networks.push(networkName);
     dockerCompose.services[nodeRedServiceName] = {
       "extends": {
         file: "service-types.yml",
