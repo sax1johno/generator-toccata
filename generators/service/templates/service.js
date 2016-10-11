@@ -11,7 +11,7 @@ seneca
   .use('seneca-entity')
   .client(
          {
-             type: 'tcp', host: 'views',
+             type: 'tcp', host: '<%= viewsHost %>',
              pins: [{ role: "views", cmd: "*" }]
          }
      ) // Connects up with the "views" engine.  

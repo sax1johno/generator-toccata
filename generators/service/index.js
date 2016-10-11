@@ -174,6 +174,7 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('service.js'),
         { 
             name: capName,
+            viewsHost: lowerSiteName + "_views",
             port: 10201
         }
     );
