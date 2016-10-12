@@ -153,8 +153,8 @@ module.exports = yeoman.Base.extend({
             "ENV=development"
       ],
         "volumes": [
-            './sites/' + this.props.name + '/flows:/usr/src/flows',
-            './sites/' + this.props.name + '/public:/usr/src/public'
+            './sites/' + this.props.name + '/components/Views/views:/usr/src/views',
+            './sites/' + this.props.name + '/components/Views/models:/usr/src/models'
         ]
     }    
     if (!dockerComposeProduction.services) {
