@@ -20,7 +20,7 @@
     "seneca-mongo-store": "^0.2.0",
     "seneca-perm": "^0.5.6",
     "seneca-user": "^1.0.1",
-    "seneca-views": "^0.3.2",
+    "seneca-views": "^0.3.6",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
