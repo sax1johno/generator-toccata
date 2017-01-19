@@ -38,7 +38,7 @@
     "media-typer": "0.3.0",
     "mqtt": "1.7.4",
     "mustache": "2.2.1",
-    "node-red": "^0.15.2",
+    "node-red": "^0.16.1",
     "node-red-contrib-auth": "^0.1.6",
     "node-red-contrib-http-multipart": "^0.2.0",
     "node-red-contrib-seneca": "^0.1.8",
